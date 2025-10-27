@@ -1,0 +1,49 @@
+###########################################################
+# Default configuration for Alpha Arena LLM Trader
+###########################################################
+
+# LLM provider definitions.  Each provider must have a
+# base_url and a model name for the OpenAI‑compatible
+# `/chat/completions` endpoint.  Additional parameters (like
+# temperature) may be added here and will be passed through
+# to the `llm_clients` layer.
+llm_providers:
+  deepseek:
+    base_url: "https://api.deepseek.com/v1"
+    model: "deepseek-chat"
+    temperature: 0.2
+    max_tokens: 1024
+  qwen_max:
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    model: "qwen-max"
+    temperature: 0.2
+    max_tokens: 1024
+
+# Exchange settings.  The exchange ID must correspond to a
+# ccxt exchange class (e.g. `binance`, `okx`, `bybit`).
+exchange:
+  exchange_id: "binance"
+  symbols:
+    - "BTC/USDT:USDT"
+    - "ETH/USDT:USDT"
+  timeframe: "1m"
+  options:
+    defaultType: "future"
+  # Poll interval in seconds when running continuously
+  poll_interval: 60
+
+# Risk management settings
+risk:
+  per_trade_risk_fraction: 0.005          # 0.5% of equity per trade
+  max_gross_exposure_fraction: 2.0        # total leveraged notional / equity
+  daily_drawdown_stop_fraction: 0.10      # stop new trades after 10% down in a day
+  stop_loss_atr_multiplier: 3.0           # ATR multiple for auto stop loss when none provided
+  max_holding_minutes: 180                # maximum time to hold a position
+
+# Sentiment data configuration
+sentiment:
+  use_fear_and_greed: true
+
+# Logging configuration
+logging:
+  log_file: "data/trades.jsonl"
